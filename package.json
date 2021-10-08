@@ -1,13 +1,14 @@
 {
   "name": "react-rp",
+  "author": "Untlsn",
   "version": "0.1.0",
-  "main": "../../Projects/react-rp/src/main.js",
-  "types": "./src/main.d.ts",
+  "main": "./dist/index.js",
   "devDependencies": {
     "typescript": "^4.4.3"
   },
   "scripts": {
     "start": "tsc",
     "watch": "tsc --watch"
-  }
+  },
+  "license": "MIT"
 }
