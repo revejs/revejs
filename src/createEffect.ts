@@ -1,8 +1,8 @@
-import { Receiver, onUpdate } from "./types";
+import { Effect, onUpdate } from "./types";
 import { stillUpdatingReceivers } from "./stillUpdatingReceivers";
 
-export function createReceiver(fn: onUpdate) {
-  const receiver: Receiver = {
+export function createEffect(fn: onUpdate) {
+  const receiver: Effect = {
     getUpdate() {
       receiver.waitAs.forEach(waitingGroups => {
         waitingGroups.delete(receiver);

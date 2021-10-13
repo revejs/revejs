@@ -1,8 +1,8 @@
-import { Parcel, Update, Receiver } from './types';
+import { Accessor, Update, Effect } from './types';
 import { stillUpdatingReceivers  } from "./stillUpdatingReceivers";
 
-export const createDelivery = <T>(value: T): [Parcel<T>, Update<T>] => {
-  const deliveryWaitingReceivers = new Set<Receiver>();
+export const createSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
+  const deliveryWaitingReceivers = new Set<Effect>();
 
   return [
     () => {

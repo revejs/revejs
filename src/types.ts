@@ -3,11 +3,11 @@ export interface Update<T> {
   (fn: (newValue: T) => void): void
 }
 
-export type Parcel<T = any> = () => T;
+export type Accessor<T = any> = () => T;
 
-export interface Receiver {
+export interface Effect {
   getUpdate(): void
-  waitAs: Set<Set<Receiver>>
+  waitAs: Set<Set<Effect>>
 }
 
 export type onUpdate = () => void

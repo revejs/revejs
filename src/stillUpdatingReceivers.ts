@@ -1,3 +1,3 @@
-import { Receiver } from "./types";
+import { Effect } from "./types";
 
-export const stillUpdatingReceivers: Receiver[] = [];
+export const stillUpdatingReceivers: Effect[] = [];

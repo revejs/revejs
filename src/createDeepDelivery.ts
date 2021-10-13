@@ -1,10 +1,10 @@
-import { Parcel } from "./types";
-import { createDelivery } from "./createDelivery";
-import { createReceiver } from "./createReceiver";
+import { Accessor } from "./types";
+import { createSignal } from "./createSignal";
+import { createEffect } from "./createEffect";
 
-export const createDeepDelivery = <T>(fn: Parcel<T>) => {
-  const [old, setOld] = createDelivery<T>(fn());
-  createReceiver(() => {
+export const createDeepDelivery = <T>(fn: Accessor<T>) => {
+  const [old, setOld] = createSignal<T>(fn());
+  createEffect(() => {
     const newValue = fn()
     if (old() != newValue) setOld(newValue)
   })
