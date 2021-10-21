@@ -10,5 +10,9 @@
     "start": "tsc",
     "watch": "tsc --watch"
   },
+  "repository": {
+    "directory": "https://github.com/revejs/revejs.git",
+    "type": "git"
+  },
   "license": "MIT"
 }
