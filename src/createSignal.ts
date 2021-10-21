@@ -1,23 +1,17 @@
-import { Accessor, Update, Effect } from './types';
-import { stillUpdatingReceivers  } from "./stillUpdatingReceivers";
+import { Accessor, Update } from './types';
 
 export const createSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
-  const deliveryWaitingReceivers = new Set<Effect>();
+  const effects: Function[] = [];
+  const getter: Accessor = () => value;
+  getter.addEffect = (fn: () => void) => effects.push(fn);
 
   return [
-    () => {
-      const receiver = stillUpdatingReceivers[stillUpdatingReceivers.length - 1];
-      if (receiver) {
-        deliveryWaitingReceivers.add(receiver);
-        receiver.waitAs.add(deliveryWaitingReceivers);
-      }
-      return value;
-    },
+    getter,
     (newValue) => {
       value = typeof newValue == 'function'
         ? (newValue as Function)(value) ?? value
         : newValue;
-      [...deliveryWaitingReceivers].forEach(receiver => receiver.getUpdate())
+      effects.forEach(fn => fn())
     },
   ];
 };

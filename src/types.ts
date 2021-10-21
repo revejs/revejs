@@ -1,13 +1,9 @@
 export interface Update<T> {
   (newValue: T): void
-  (fn: (newValue: T) => void): void
+  (fn: (value: T) => void): void
 }
 
-export type Accessor<T = any> = () => T;
-
-export interface Effect {
-  getUpdate(): void
-  waitAs: Set<Set<Effect>>
+export interface Accessor<T = any> {
+  (): T
+  addEffect(fn: Function): void
 }
-
-export type onUpdate = () => void

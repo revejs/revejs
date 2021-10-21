@@ -1,22 +1,7 @@
-import { Effect, onUpdate } from "./types";
-import { stillUpdatingReceivers } from "./stillUpdatingReceivers";
+import { Accessor } from './types';
 
-export function createEffect(fn: onUpdate) {
-  const receiver: Effect = {
-    getUpdate() {
-      receiver.waitAs.forEach(waitingGroups => {
-        waitingGroups.delete(receiver);
-      })
-      receiver.waitAs.clear();
-      stillUpdatingReceivers.push(receiver);
-      try {
-        fn();
-      } finally {
-        stillUpdatingReceivers.pop();
-      }
-    },
-    waitAs: new Set(),
-  };
+export const createEffect = (fn: () => void, deps: Accessor[]) => {
+  deps.forEach(dep => dep.addEffect(fn));
 
-  receiver.getUpdate();
+  return fn;
 }
