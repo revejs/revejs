@@ -8,7 +8,8 @@
         "allowSyntheticDefaultImports": true,
         "moduleResolution": "node",
         "lib": [
-            "ES6"
+          "ES6",
+          "dom"
         ],
         "allowJs": true,
         "skipLibCheck": true,

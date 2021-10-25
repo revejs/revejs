@@ -1,7 +1,10 @@
-import { Accessor } from './types';
+import { Accessor, Effect } from './types';
 
-export const createEffect = (fn: () => void, deps: Accessor[]) => {
-  deps.forEach(dep => dep.addEffect(fn));
+export const createEffect = (fn: (effect: Effect) => void, deps: Accessor[]): Effect => {
+  const effect = () => fn(effect);
+  effect.clear = () => deps.forEach(dep => dep.removeEffect(effect));
 
-  return fn;
+  deps.forEach(dep => dep.addEffect(effect));
+
+  return effect;
 }
