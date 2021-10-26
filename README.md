@@ -3,8 +3,8 @@
 ## What is Revejs?
 Revejs is leve (Brazilian Portuguese word for "light") reactive library with API base on react hooks and solid-js.
 ## Goal
-Goal of Revejs is to make reactive programing easy to use for beginners and light.  
-Revejs doesn't intend to compete with RXJS or other libraries.
+Goal of Revejs is to be light and make reactive programing easy to use for beginners.  
+Revejs doesn't intend to compete with RXJS or other reactive libraries.
 
 ## Installation
 ```

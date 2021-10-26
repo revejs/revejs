@@ -1,8 +1,8 @@
-import { Accessor } from './types';
+import { Emitter } from './types';
 
-export const createEmptySignal = (): Accessor<void> => {
+export const createEmptySignal = () => {
   const effects = new Set<Function>();
-  const emitter: Accessor = () => {
+  const emitter: Emitter = () => {
     effects.forEach(fn => fn())
   };
   emitter.addEffect = (fn: () => void) => effects.add(fn);
