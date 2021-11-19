@@ -4,11 +4,21 @@
   "version": "0.3.5",
   "main": "./dist/index.js",
   "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/faker": "^5.5.9",
+    "@types/jest": "^27.0.3",
+    "babel-jest": "^27.3.1",
+    "faker": "^5.5.3",
+    "jest": "^27.3.1",
+    "ts-node": "^10.4.0",
     "typescript": "^4.4.3"
   },
   "scripts": {
     "start": "tsc",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "test": "jest"
   },
   "repository": {
     "directory": "https://github.com/revejs/revejs.git",
@@ -16,6 +26,8 @@
   },
   "license": "MIT",
   "keywords": [
-    "Rx", "reactive", "light"
+    "Rx",
+    "reactive",
+    "light"
   ]
 }
