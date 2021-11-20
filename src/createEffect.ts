@@ -1,10 +1,11 @@
 import { Effect, Emitter } from './types';
 import { signalsStack } from './createSignal';
 
-const depsIsEmitter = (deps: any[]): deps is Emitter<any>[] => !deps.some(dep => !dep.removeEffect || !dep.addEffect)
+export const isEmitter = (emitter: any): emitter is Emitter => emitter?.removeEffect && emitter?.addEffect
+export const depsIsEmitters = (deps: any[]): deps is Emitter[] => deps.every(isEmitter)
 
 export const createEffect = (fn: (effect: Effect) => void, deps: any[] = []): Effect => {
-  if (depsIsEmitter(deps)) {
+  if (depsIsEmitters(deps)) {
     const effect = () => {
       cleaning();
       signalsStack.push(deps.length ? [] : deps)

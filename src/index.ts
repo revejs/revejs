@@ -1,8 +1,8 @@
 export * from './types';
 export { createSignal } from './createSignal';
-export * from './createEffect';
-export * from './createMemo';
-export * from './createEmptySignal';
+export { createEffect } from './createEffect';
+export { createMemo } from './createMemo';
+export { createEmptySignal, bind } from './createEmptySignal';
 export { ignore } from './ignore'
 
 export * from './careful';
