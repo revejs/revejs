@@ -1,12 +1,15 @@
 import { Accessor, Update } from './types';
 import { last } from './helpers/last';
+import { isIgnored } from './ignore';
 
 export const signalsStack: Accessor[][] = [];
 
 export const createSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
   const effects = new Set<() => void>();
   const getter: Accessor = () => {
-    last(signalsStack)?.push?.(getter);
+    if (!isIgnored.check) {
+      last(signalsStack)?.push?.(getter);
+    }
     return value
   };
   getter.addEffect = (fn: () => void) => effects.add(fn);

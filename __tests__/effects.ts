@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from '../src';
+import { createEffect, createSignal, ignore } from '../src';
 
 describe('effects', () => {
   let effectRun = false;
@@ -89,5 +89,43 @@ describe('effects', () => {
     setSignal(3);
 
     expect(res).toEqual([0, 1, 2, 3]);
+  });
+  describe('ignore', () => {
+    it('should prevent signal from rerunning', () => {
+      const [signal, setSignal] = createSignal(0);
+      const [ignoredSignal, setIgnoredSignal] = createSignal(0);
+      const res: number[] = [];
+
+      createEffect(() => {
+        res.push(signal() + ignore(ignoredSignal));
+      })
+
+      setSignal(1);
+      setSignal(2);
+      setSignal(3);
+      setIgnoredSignal(1);
+      setIgnoredSignal(2);
+      setIgnoredSignal(3);
+
+      expect(res).toEqual([0, 1, 2, 3]);
+    });
+    it('should work with many signals', () => {
+      const [signal, setSignal] = createSignal(0);
+      const [ignoredSignal, setIgnoredSignal] = createSignal(0);
+      const res: number[] = [];
+
+      createEffect(() => {
+        res.push(ignore(() => signal() + ignoredSignal()));
+      })
+
+      setSignal(1);
+      setSignal(2);
+      setSignal(3);
+      setIgnoredSignal(1);
+      setIgnoredSignal(2);
+      setIgnoredSignal(3);
+
+      expect(res).toEqual([0]);
+    });
   });
 });
