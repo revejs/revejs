@@ -8,44 +8,35 @@ Revejs doesn't intend to compete with RXJS or other reactive libraries.
 
 ## Installation
 ```
-    npm i revejs
+npm i revejs
 ```
 
 ## Usage
 Base of Revejs is signals like in solid-js and react state
 ```javascript
-    const [getter, setter] = createSignal('init value');
+const [getter, setter] = createSignal('init value');
 ```
 Getters and setter is functions, so value can be access like this
 ```javascript
-    console.log(getter())
+console.log(getter())
 ```
 And values set like this
 ```javascript
-    setter('new value')
+setter('new value')
 ```
-Reactive part of revejs are effects, they can be defined in two ways.
+Reactive part of revejs are effects.
 They're just the functions that are called when setter is running
 ```javascript
-    getter.addEffect(
-        () => console.log('it run on value change')
-    )
-    // OR
-    createEffect(
-        () => console.log('it run on value change'), 
-        [getter, anotherGetter]
-    )
+createEffect(
+    () => console.log('it run on value change'), 
+    [getter, anotherGetter]
+)
 ```
-Signals can have many effect and effects can have many signals, but effects can't have another effects
+Effect can be nested
 ```javascript
-    // effect inside will be add to stack every time setter start
-    createEffect(
-        () => {
-            createEffect(
-                () => console.log('')
-            , [getter])
-        }
-    , [getter])
+createEffect(() => {
+  createEffect(() => console.log(''), [getter])
+}, [getter])
 ```
 
 

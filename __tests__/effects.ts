@@ -59,5 +59,22 @@ describe('effects', () => {
 
     expect(incrementer).toBe(2)
   });
+  it('should remove old nested effects', () => {
+    const [signal, setSignal] = createSignal(0);
+    const res: number[] = [];
 
+    createEffect(() => {
+      createEffect(() => {
+        createEffect(() => {
+          res.push(signal());
+        }, [signal])
+      }, [signal])()
+    }, [signal])()
+
+    setSignal(1);
+    setSignal(2);
+    setSignal(3);
+
+    expect(res).toEqual([1, 2, 3]);
+  });
 });

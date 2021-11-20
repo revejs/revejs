@@ -10,7 +10,7 @@ export const createSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
     value = typeof newValue == 'function'
       ? newValue(value) ?? value
       : newValue;
-    effects.forEach(fn => fn())
+    [...effects].reverse().forEach(fn => fn())
   }
 
   getter.set = setter;
