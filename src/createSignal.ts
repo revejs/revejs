@@ -1,12 +1,12 @@
-import { Accessor, Update } from './types';
+import { Accessor, Emitter, Update } from './types';
 import { last } from './helpers/last';
 import { isIgnored } from './ignore';
 
-export const signalsStack: Accessor[][] = [];
+export const signalsStack: Emitter[][] = [];
 
 export const createSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
   const effects = new Set<() => void>();
-  const getter: Accessor = () => {
+  const getter: Emitter = () => {
     if (!isIgnored.check) {
       last(signalsStack)?.push?.(getter);
     }
@@ -21,9 +21,6 @@ export const createSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
       : newValue;
     [...effects].reverse().forEach(fn => fn())
   }
-
-  getter.set = setter;
-  setter.get = getter;
 
   return [getter, setter];
 };
