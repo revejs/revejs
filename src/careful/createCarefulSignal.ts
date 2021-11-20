@@ -1,26 +1,20 @@
 import { Accessor, Update } from '../types';
+import { createSignal } from '../createSignal';
 
-export const createCarefulSignal = <T>(value: T): [Accessor<T>, Update<T>] => {
-  const effects = new Set<() => void>();
-  const getter = () => value;
-  getter.addEffect = (fn: () => void) => effects.add(fn);
-  getter.removeEffect = (fn: () => void) => effects.delete(fn);
+export const createCarefulSignal = <T>(initValue: T): [Accessor<T>, Update<T>] => {
+  const [value, setValue] = createSignal(initValue);
 
   const setter = (newValue: any) => {
     const createdNewValue = typeof newValue == 'function'
       ? (newValue as Function)(value) ?? value
       : newValue;
 
-    if (createdNewValue != value) {
-      value = createdNewValue;
-
-      effects.forEach(fn => fn())
-    }
+    if (createdNewValue != value) setValue(createdNewValue)
   }
+  setter.get = value;
 
-  getter.set = setter;
-  setter.get = getter;
-
-
-  return [getter, setter];
+  return [
+    value,
+    setter,
+  ]
 };
