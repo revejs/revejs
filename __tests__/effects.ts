@@ -1,5 +1,4 @@
-import { createEffect } from '../src';
-import { createSignal } from '../dist';
+import { createEffect, createSignal } from '../src';
 
 describe('effects', () => {
   let effectRun = false;
@@ -76,5 +75,19 @@ describe('effects', () => {
     setSignal(3);
 
     expect(res).toEqual([1, 2, 3]);
+  });
+  it('should listen used signals when deps not defined', () => {
+    const [signal, setSignal] = createSignal(0);
+    const res: number[] = [];
+
+    createEffect(() => {
+      res.push(signal());
+    })
+
+    setSignal(1);
+    setSignal(2);
+    setSignal(3);
+
+    expect(res).toEqual([0, 1, 2, 3]);
   });
 });

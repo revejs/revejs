@@ -1,17 +1,18 @@
 import { Accessor, Effect } from './types';
+import { signalsStack } from './createSignal';
 
-let context = { length: 0 };
 
-export const createEffect = (fn: (effect: Effect) => void, deps: Accessor[]): Effect => {
+export const createEffect = (fn: (effect: Effect) => void, deps: Accessor[] = []): Effect => {
   const effect = () => {
     cleaning();
-    context.length++
+    signalsStack.push(deps.length ? [] : deps)
     fn(effect)
-    context.length--;
+    signalsStack.pop();
   };
   effect.clear = () => deps.forEach(dep => dep.removeEffect(effect));
+  const cleaning = signalsStack.length ? effect.clear : () => {};
 
-  const cleaning = context.length ? effect.clear : () => {};
+  if (!deps.length) effect();
 
   deps.forEach(dep => dep.addEffect(effect));
 
